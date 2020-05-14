@@ -9,13 +9,11 @@
 
 namespace gui::page {
 
-    class PageEmulators : public ui::view::View {
+    class PageSettings : public ui::view::View {
     public:
-        PageEmulators();
+        PageSettings();
 
     private:
-        ui::view::Grid m_grid;
-        ui::view::Image m_backgroundImage;
 
         void draw(NVGcontext *vg) override;
         void layout() override;

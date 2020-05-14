@@ -7,6 +7,26 @@
 #include <memory>
 #include <optional>
 
+#include "ui/style.hpp"
+
+namespace ui {
+
+    enum class Button {
+        None,
+        Up,
+        Down,
+        Left,
+        Right,
+        Ok,
+        Back,
+        PageLeft,
+        PageRight,
+
+        NumButtons  // Number of buttons
+    };
+
+}
+
 namespace ui::view {
 
 #define NON_FOCUSABLE nullptr
@@ -46,6 +66,8 @@ namespace ui::view {
 
         virtual View* getDefaultFocus();
         virtual View* getNextFocus(const FocusDirection direction);
+
+        virtual void onInput(Button button);
 
     private:
         bool m_focused = false;

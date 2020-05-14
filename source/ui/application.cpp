@@ -163,11 +163,11 @@ namespace ui {
                     this->m_running = false;
                     break;
                 case SDL_KEYUP:
-
+                    Application::s_heldButtons[size_t(keycodeToButton(event.key.keysym.sym))] = false;
                     break;
                 case SDL_KEYDOWN:
-                    if (event.key.state == SDL_PRESSED)
-                        this->m_guis.back().navigate(keycodeToButton(event.key.keysym.sym));
+                    this->m_guis.back().navigate(keycodeToButton(event.key.keysym.sym));
+                    Application::s_heldButtons[size_t(keycodeToButton(event.key.keysym.sym))] = true;
 
                     break;
             }

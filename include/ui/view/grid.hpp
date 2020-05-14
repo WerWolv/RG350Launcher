@@ -9,7 +9,7 @@ namespace ui::view {
 
     class Grid : public View {
     public:
-        Grid(u16 columns, u32 rowHeight = 0, u32 spacing = 10);
+        Grid(u16 columns, float aspectRatio = 0.0F, u32 spacing = 10);
 
         void draw(NVGcontext *vg) override;
         void layout() override;
@@ -30,6 +30,7 @@ namespace ui::view {
 
     private:
         u16 m_rows, m_columns;
+        float m_aspectRatio;
         u32 m_rowHeight;
         u32 m_spacing;
 

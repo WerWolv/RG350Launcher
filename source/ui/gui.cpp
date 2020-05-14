@@ -19,7 +19,7 @@ namespace ui {
         if (this->m_currFocus == nullptr) {
             this->m_currFocus = this->m_rootView->getDefaultFocus();
 
-            if (this->m_currFocus == nullptr)
+            if (this->m_currFocus != nullptr)
                 this->m_currFocus->setFocused(true);
 
             return;
@@ -51,6 +51,9 @@ namespace ui {
             this->m_currFocus = nextFocus;
             this->m_currFocus->setFocused(true);
         }
+
+        if (this->m_currFocus != nullptr)
+            this->m_currFocus->onInput(button);
     }
 
 }

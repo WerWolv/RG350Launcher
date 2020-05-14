@@ -2,7 +2,7 @@
 
 namespace ui::view {
 
-    Grid::Grid(u16 columns, u32 rowHeight, u32 spacing) : View(), m_rows(0), m_columns(columns), m_rowHeight(rowHeight), m_spacing(spacing) {
+    Grid::Grid(u16 columns, float aspectRatio, u32 spacing) : View(), m_rows(0), m_columns(columns), m_aspectRatio(aspectRatio), m_rowHeight(0), m_spacing(spacing) {
 
     }
 
@@ -15,7 +15,7 @@ namespace ui::view {
         u32 placeX = getX() + this->m_spacing * 2;
         u32 placeY = getY();
         const u32 itemWidth = (getWidth() / this->m_columns) - (this->m_spacing * (this->m_columns - 1));
-        const u32 itemHeight = this->m_rowHeight != 0 ? this->m_rowHeight : (getHeight() / this->m_rows) - (this->m_spacing * (this->m_rows - 1));
+        const u32 itemHeight = this->m_aspectRatio != 0.0F ? itemWidth * this->m_aspectRatio : (getHeight() / this->m_rows) - (this->m_spacing * (this->m_rows - 1));
 
         u32 index = 0;
         for (auto &child : this->m_children) {

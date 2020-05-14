@@ -1,5 +1,7 @@
 #include "ui/view/view.hpp"
 
+#include "ui/gui.hpp"
+
 #include <SDL.h>
 
 namespace ui::view {
@@ -151,6 +153,11 @@ namespace ui::view {
 
     View* View::getNextFocus(const FocusDirection direction) {
         return NON_FOCUSABLE;
+    }
+
+    void View::onInput(ui::Button button) {
+        if (this->getParent() != nullptr)
+            this->getParent()->onInput(button);
     }
 
 }

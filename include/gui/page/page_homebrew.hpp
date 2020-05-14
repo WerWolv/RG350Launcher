@@ -9,18 +9,15 @@
 
 namespace gui::page {
 
-    class PageEmulators : public ui::view::View {
+    class PageHomebrew : public ui::view::View {
     public:
-        PageEmulators();
+        PageHomebrew();
 
     private:
-        ui::view::Grid m_grid;
-        ui::view::Image m_backgroundImage;
-
         void draw(NVGcontext *vg) override;
         void layout() override;
 
-        View* getDefaultFocus() override;
+        void drawWave(NVGcontext *vg, NVGcolor startColor, u32 offset, float frequency, u32 amplitude, u32 phase);
 
     };
 

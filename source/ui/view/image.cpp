@@ -23,12 +23,12 @@ namespace ui::view {
     void Image::draw(NVGcontext *vg) {
         nvgBeginPath(vg);
         nvgFillPaint(vg, this->m_paint);
-        nvgRect(vg, getX(), getY(), getWidth(), getHeight());
+        nvgRoundedRect(vg, getX(), getY(), getWidth(), getHeight(), 3);
         nvgFill(vg);
     }
 
     void Image::layout() {
-        this->m_paint = nvgImagePattern(Application::getNVGContext(), getX(), getY(), getX() + getWidth(), getY() + getHeight(), 0, this->m_texture, 1.0F);
+        this->m_paint = nvgImagePattern(Application::getNVGContext(), getX(), getY(), getWidth(), getHeight(), 0, this->m_texture, 1.0F);
     }
 
 }

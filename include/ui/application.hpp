@@ -1,9 +1,11 @@
 #pragma once
 
 #include <SDL.h>
+#include "ui/view/view.hpp"
 
 #include <list>
 #include <vector>
+#include <array>
 
 #include "gui.hpp"
 
@@ -16,6 +18,10 @@ namespace ui {
 
         static NVGcontext* getNVGContext() {
             return Application::s_vgCtx;
+        }
+
+        static bool isButtonHeld(const Button &&button) {
+            return Application::s_heldButtons[size_t(button)];
         }
 
         const Result& getInitResult() const;
@@ -37,6 +43,8 @@ namespace ui {
         static inline SDL_Window *s_window = nullptr;
         static inline SDL_GLContext s_glCtx = nullptr;
         static inline NVGcontext *s_vgCtx = nullptr;
+
+        static inline std::array<bool, size_t(Button::NumButtons)> s_heldButtons;
 
         bool m_running = true;
         Result m_initResult = 0;
