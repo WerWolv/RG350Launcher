@@ -2,7 +2,7 @@
 
 namespace ui::view {
 
-    DebugRectangle::DebugRectangle(NVGcolor color) : m_color(color) {
+    DebugRectangle::DebugRectangle(NVGcolor color) : View(), m_color(color) {
 
     }
 

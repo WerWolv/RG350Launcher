@@ -5,23 +5,31 @@
 #include <nanovg.h>
 #include <list>
 #include <memory>
+#include <optional>
 
 namespace ui::view {
+
+#define NON_FOCUSABLE nullptr
+#define CHILD(view) (view).setParent(this)
+
+    enum class FocusDirection {
+        Up,
+        Down,
+        Left,
+        Right
+    };
 
     class View {
     public:
         View() = default;
 
-        template<typename T, typename ... Args>
-        T& addChild(Args... args) {
-            this->m_children.push_back(std::make_unique<T>(std::forward(args...)));
-
-            return this->m_children.back();
-        }
+        void setParent(View* const parent);
+        View* const getParent() const;
 
         virtual void draw(NVGcontext *vg) = 0;
         virtual void layout() = 0;
 
+        virtual void drawHighlightBackground(NVGcontext *vg);
         virtual void drawHighlight(NVGcontext *vg);
 
         void frame(NVGcontext *vg);
@@ -34,14 +42,17 @@ namespace ui::view {
         s32 getHeight();
 
         void setFocused(bool focused);
-        bool isFocused();
+        bool isFocused() const;
+
+        virtual View* getDefaultFocus();
+        virtual View* getNextFocus(const FocusDirection direction);
 
     private:
         bool m_focused = false;
         s32 m_x, m_y;
         s32 m_width, m_height;
 
-        std::list<std::unique_ptr<View>> m_children;
+        View *m_parent;
     };
 
 }

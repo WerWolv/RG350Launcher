@@ -31,7 +31,7 @@ namespace ui {
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, SDL_TRUE);
 
 
-        Application::s_window = SDL_CreateWindow("RG350M Menu", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, ScreenWidth, ScreenHeight, SDL_WINDOW_OPENGL);
+        Application::s_window = SDL_CreateWindow("RG350M Menu", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, cfg::ScreenWidth, cfg::ScreenHeight, SDL_WINDOW_OPENGL);
         if (Application::s_window == nullptr) {
             this->m_initResult = ResultSDLWindowCreationFailed;
             return;
@@ -90,7 +90,7 @@ namespace ui {
     void drawFPS(NVGcontext *vg, u32 fps) {
         nvgBeginPath(vg);
         nvgFillColor(vg, nvgRGBA(0x00, 0x00, 0x00, 0x80));
-        nvgRect(vg, ScreenWidth - 40, 0, 40, 25);
+        nvgRect(vg, cfg::ScreenWidth - 40, 0, 40, 25);
         nvgFill(vg);
 
         nvgFillColor(vg, nvgRGB(0xFF, 0xFF, 0xFF));
@@ -99,7 +99,7 @@ namespace ui {
         nvgTextAlign(vg, NVG_ALIGN_RIGHT | NVG_ALIGN_TOP);
         nvgBeginPath(vg);
 
-        nvgText(vg, ScreenWidth - 8, 5, std::to_string(fps).c_str(), nullptr);
+        nvgText(vg, cfg::ScreenWidth - 8, 5, std::to_string(fps).c_str(), nullptr);
     }
 
     bool Application::loop() {
@@ -124,11 +124,51 @@ namespace ui {
         return this->m_running;
     }
 
+    Button keycodeToButton(SDL_Keycode keyCode) {
+        if constexpr (cfg::Platform == cfg::Platform::Desktop) {
+            switch (keyCode) {
+                case SDLK_w:        return Button::Up;
+                case SDLK_a:        return Button::Left;
+                case SDLK_s:        return Button::Down;
+                case SDLK_d:        return Button::Right;
+                case SDLK_KP_ENTER: return Button::Ok;
+                case SDLK_ESCAPE:   return Button::Back;
+                case SDLK_q:        return Button::PageLeft;
+                case SDLK_e:        return Button::PageRight;
+                default:            return Button::None;
+            }
+        } else if constexpr (cfg::Platform == cfg::Platform::OpenDingux) {
+            switch (keyCode) {
+                case SDLK_UP:           return Button::Up;
+                case SDLK_LEFT:         return Button::Left;
+                case SDLK_DOWN:         return Button::Down;
+                case SDLK_RIGHT:        return Button::Right;
+                case SDLK_LCTRL:        return Button::Ok;
+                case SDLK_LALT:         return Button::Back;
+                case SDLK_TAB:          return Button::PageLeft;
+                case SDLK_BACKSPACE:    return Button::PageRight;
+                default:                return Button::None;
+            }
+        } else return Button::None;
+    }
+
+
     void Application::handleEvents() {
+        if (this->m_guis.size() == 0)
+            return;
+
         for (SDL_Event event = { 0 }; SDL_PollEvent(&event);) {
             switch (event.type) {
                 case SDL_QUIT:
                     this->m_running = false;
+                    break;
+                case SDL_KEYUP:
+
+                    break;
+                case SDL_KEYDOWN:
+                    if (event.key.state == SDL_PRESSED)
+                        this->m_guis.back().navigate(keycodeToButton(event.key.keysym.sym));
+
                     break;
             }
         }
@@ -138,10 +178,12 @@ namespace ui {
         glClearColor(1.0F, 1.0F, 1.0F, 1.0F);
         glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-        nvgBeginFrame(Application::s_vgCtx, ScreenWidth, ScreenHeight, 1.0F);
+        nvgBeginFrame(Application::s_vgCtx, cfg::ScreenWidth, cfg::ScreenHeight, 1.0F);
 
         this->m_guis.back().draw(Application::s_vgCtx);
-        drawFPS(Application::getNVGContext(), this->m_currFps);
+
+        if (cfg::ShowFPS)
+            drawFPS(Application::getNVGContext(), this->m_currFps);
 
         nvgEndFrame(Application::s_vgCtx);
 

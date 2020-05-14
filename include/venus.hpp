@@ -12,5 +12,14 @@
 
 /* == Config == */
 
-constexpr u32 ScreenWidth  = 640;
-constexpr u32 ScreenHeight = 480;
+namespace cfg {
+
+    constexpr u32 ScreenWidth = 640;
+    constexpr u32 ScreenHeight = 480;
+    constexpr bool ShowFPS = false;
+
+    constexpr enum class Platform {
+        Desktop, OpenDingux
+    } Platform = Platform::Desktop;
+
+}

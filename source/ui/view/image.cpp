@@ -3,15 +3,15 @@
 
 namespace ui::view {
 
-    Image::Image(const std::string &path) {
+    Image::Image(const std::string &path) : View() {
         this->m_texture = nvgCreateImage(Application::getNVGContext(), path.c_str(), 0);
     }
 
-    Image::Image(u8 *data, size_t size) {
+    Image::Image(u8 *data, size_t size) : View() {
         this->m_texture = nvgCreateImageMem(Application::getNVGContext(), 0, data, size);
     }
 
-    Image::Image(u8 *data, u32 width, u32 height) {
+    Image::Image(u8 *data, u32 width, u32 height) : View() {
         this->m_texture = nvgCreateImageRGBA(Application::getNVGContext(), width, height, 0, data);
     }
 

@@ -16,9 +16,11 @@ add_executable(RG350Launcher
         source/ui/view/debug_rectangle.cpp
         source/ui/view/header.cpp
         source/ui/view/image.cpp
+        source/ui/view/button.cpp
         source/ui/application.cpp
         source/gui/page/page_emulators.cpp
-        source/dev/device.cpp include/dev/device_screen.hpp)
+        source/dev/device.cpp
+        include/dev/device_screen.hpp source/ui/view/grid.cpp)
 
 include(FindPkgConfig)
 pkg_search_module(SDL2 REQUIRED sdl2)
