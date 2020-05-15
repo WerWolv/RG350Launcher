@@ -75,17 +75,17 @@ namespace ui::view {
 
         float cornerRadius = 3;
 
-        const u32 strokeWidth = 3;
-        const u32 shadowOffset = 10;
+        const s32 strokeWidth = 3;
+        const s32 shadowOffset = 10;
         const NVGcolor transparent = nvgRGBA(0,0,0,0);
 
         const NVGcolor highlightColor1 = nvgRGB(13, 182, 213);
         const NVGcolor highlightColor2 = nvgRGB(80, 239, 217);
 
-        u32 x      = getX() - strokeWidth / 2;
-        u32 y      = getY() - strokeWidth / 2;
-        u32 width  = getWidth() + strokeWidth;
-        u32 height = getHeight() + strokeWidth;
+        s32 x      = getX() - strokeWidth / 2;
+        s32 y      = getY() - strokeWidth / 2;
+        s32 width  = getWidth() + strokeWidth;
+        s32 height = getHeight() + strokeWidth;
 
         NVGpaint shadowPaint = nvgBoxGradient(vg,
                                               x, y + 2,

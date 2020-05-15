@@ -2,17 +2,17 @@
 
 namespace gui::page {
 
-    PageEmulators::PageEmulators() : View(), m_grid(3, 0.545), m_backgroundImage("bg.png") {
+    PageEmulators::PageEmulators() : View(), m_grid(3, 0.545), m_backgroundImage("res/bg.png") {
         CHILD(this->m_grid);
         CHILD(this->m_backgroundImage);
 
-        this->m_grid.addItem<ui::view::ImageButton>("NES.png");
-        this->m_grid.addItem<ui::view::ImageButton>("SNES.png");
-        this->m_grid.addItem<ui::view::ImageButton>("GB.png");
-        this->m_grid.addItem<ui::view::ImageButton>("GBC.png");
-        this->m_grid.addItem<ui::view::ImageButton>("GBA.png");
-        this->m_grid.addItem<ui::view::ImageButton>("PCE.png");
-        this->m_grid.addItem<ui::view::ImageButton>("PS1.png");
+        this->m_grid.addItem<ui::view::ImageButton>("res/icons/NES.png");
+        this->m_grid.addItem<ui::view::ImageButton>("res/icons/SNES.png");
+        this->m_grid.addItem<ui::view::ImageButton>("res/icons/GB.png");
+        this->m_grid.addItem<ui::view::ImageButton>("res/icons/GBC.png");
+        this->m_grid.addItem<ui::view::ImageButton>("res/icons/GBA.png");
+        this->m_grid.addItem<ui::view::ImageButton>("res/icons/PCE.png");
+        this->m_grid.addItem<ui::view::ImageButton>("res/icons/PS1.png");
 
     }
 

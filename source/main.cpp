@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
-    application.registerFont("regular", "Roboto-Regular.ttf");
+    application.registerFont("regular", "res/fonts/Roboto-Regular.ttf");
 
     gui::GuiHome guiHome;
     application.pushGui(guiHome);

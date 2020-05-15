@@ -5,7 +5,6 @@
 #include <nanovg.h>
 #include <list>
 #include <memory>
-#include <optional>
 
 #include "ui/style.hpp"
 

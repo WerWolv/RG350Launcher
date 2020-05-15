@@ -1,7 +1,7 @@
 #include "ui/application.hpp"
 
 #include <SDL.h>
-#include <glad\gl.h>
+#include <glad/gl.h>
 #include <nanovg.h>
 
 #define NANOVG_GL3_IMPLEMENTATION

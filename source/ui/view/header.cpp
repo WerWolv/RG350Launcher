@@ -89,33 +89,15 @@ namespace ui::view {
             nvgRect(vg, getWidth() - Style::Header::PageButtonWidth, getY(), 4, Style::Header::Height);
             nvgFill(vg);
         } else {
-            NVGpaint shadow = nvgLinearGradient(vg, getWidth() - Style::Header::PageButtonWidth - 4, getY(), getWidth() - Style::Header::PageButtonWidth, getY(), nvgRGBA(0xFF, 0xFF, 0xFF, 0x00), nvgRGBA(0xA0, 0xA0, 0xA0, 0xFF));
+            NVGpaint shadow = nvgLinearGradient(vg, getWidth() - Style::Header::PageButtonWidth - 4, getY(),
+                                                getWidth() - Style::Header::PageButtonWidth, getY(),
+                                                nvgRGBA(0xFF, 0xFF, 0xFF, 0x00), nvgRGBA(0xA0, 0xA0, 0xA0, 0xFF));
 
             nvgBeginPath(vg);
             nvgFillPaint(vg, shadow);
             nvgRect(vg, getWidth() - Style::Header::PageButtonWidth - 4, getY(), 4, Style::Header::Height);
             nvgFill(vg);
         }
-
-        time_t time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-        struct tm *now = std::localtime(&time);
-
-        char timeString[6];
-        char dateString[11];
-        sprintf(timeString, "%02d:%02d", now->tm_hour, now->tm_min);
-        sprintf(dateString, "%02d.%02d.%02d", now->tm_mday, now->tm_mon + 1, 1900 + now->tm_year);
-
-        nvgFillColor(vg, nvgRGB(0x00, 0x00, 0x00));
-        nvgFontFace(vg, "regular");
-        nvgTextAlign(vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
-
-        nvgBeginPath(vg);
-        nvgFontSize(vg, 20);
-        nvgText(vg, getWidth() / 2, 20, timeString, nullptr);
-        nvgBeginPath(vg);
-        nvgFontSize(vg, 15);
-        nvgText(vg, getWidth() / 2, 45, dateString, nullptr);
-
 
         u32 lOffset = Style::Header::PageButtonWidth / 2;
         u32 rOffset = Style::Header::PageButtonWidth / 2;
@@ -125,11 +107,20 @@ namespace ui::view {
         if (Application::isButtonHeld(Button::PageRight))
             rOffset -= 4;
 
+        time_t time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+        struct tm *now = std::localtime(&time);
+
+        char timeString[6];
+        sprintf(timeString, "%02d:%02d", now->tm_hour, now->tm_min);
+
+        nvgFillColor(vg, nvgRGB(0x00, 0x00, 0x00));
+        nvgFontFace(vg, "regular");
+        nvgTextAlign(vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
+        nvgFontSize(vg, 15);
+
         nvgBeginPath(vg);
-        nvgFontSize(vg, 20);
         nvgText(vg, lOffset, Style::Header::Height / 2, "L", nullptr);
         nvgBeginPath(vg);
-        nvgFontSize(vg, 20);
         nvgText(vg, getWidth() - rOffset, Style::Header::Height / 2, "R", nullptr);
 
         drawPill(vg, getX() + 5, getHeight() - 25, timeString);
