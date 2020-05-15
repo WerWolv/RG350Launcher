@@ -14,7 +14,7 @@ namespace ui::view {
     void Grid::layout() {
         u32 placeX = getX() + this->m_spacing * 2;
         u32 placeY = getY();
-        const u32 itemWidth = (getWidth() / this->m_columns) - (this->m_spacing * (this->m_columns - 1));
+        const u32 itemWidth = (getWidth() - (this->m_spacing * (this->m_columns + 3))) / this->m_columns;
         const u32 itemHeight = this->m_aspectRatio != 0.0F ? itemWidth * this->m_aspectRatio : (getHeight() / this->m_rows) - (this->m_spacing * (this->m_rows - 1));
 
         u32 index = 0;

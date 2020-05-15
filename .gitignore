@@ -1,4 +1,7 @@
-
+CMakeFiles/
 cmake-build-debug/
+Makefile
+CMakeCache.txt
+cmake_install.cmake
 
 .idea/dictionaries/
