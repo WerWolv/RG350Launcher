@@ -34,9 +34,9 @@ namespace gui::page {
         nvgRect(vg, getX(), getY(), getWidth(), getHeight());
         nvgFill(vg);
 
-        this->drawWave(vg, nvgRGB(73, 103, 169), 100, 0.5, 20, 120 + SDL_GetTicks() / 20.0F);
-        this->drawWave(vg, nvgRGB(66, 154, 159), 90, 0.3, 15, 240 + SDL_GetTicks() / 20.0F);
-        this->drawWave(vg, nvgRGB(96, 204, 204), 80, 0.1, 10, 360 + SDL_GetTicks() / 20.0F);
+        this->drawWave(vg, nvgRGB(73, 103, 169), 100, 0.30, 20, 0 + SDL_GetTicks() / 20.0F);
+        this->drawWave(vg, nvgRGB(66, 154, 159), 90, 0.25, 15, 120 + SDL_GetTicks() / 20.0F);
+        this->drawWave(vg, nvgRGB(96, 204, 204), 80, 0.20, 15, 240 + SDL_GetTicks() / 20.0F);
     }
 
     void PageHomebrew::layout() {
