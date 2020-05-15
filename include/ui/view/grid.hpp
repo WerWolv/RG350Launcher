@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ui/view/view.hpp"
+#include "ui/style.hpp"
 
 #include <vector>
 #include <cmath>
@@ -9,7 +10,7 @@ namespace ui::view {
 
     class Grid : public View {
     public:
-        Grid(u16 columns, float aspectRatio = 0.0F, u32 spacing = 10);
+        Grid(u16 columns, float aspectRatio = 0.0F, u32 spacing = ui::Style::Padding);
 
         void draw(NVGcontext *vg) override;
         void layout() override;

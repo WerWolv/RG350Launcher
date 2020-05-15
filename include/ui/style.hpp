@@ -5,6 +5,7 @@
 namespace ui {
 
     struct Style {
+        static constexpr u32 Padding = 10;
 
         struct Header {
             static constexpr u32 Height = 25;

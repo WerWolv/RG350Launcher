@@ -1,8 +1,10 @@
 #include "gui/page/page_emulators.hpp"
 
+#include "ui/style.hpp"
+
 namespace gui::page {
 
-    PageEmulators::PageEmulators() : View(), m_grid(3, 0.545), m_backgroundImage("res/bg.png") {
+    PageEmulators::PageEmulators() : View(), m_grid(2, 0.545), m_backgroundImage("res/bg.png") {
         CHILD(this->m_grid);
         CHILD(this->m_backgroundImage);
 
@@ -22,7 +24,8 @@ namespace gui::page {
     }
 
     void PageEmulators::layout() {
-        this->m_grid.setBoundaries(getX(), 75, getWidth(), getHeight() - 75);
+        this->m_grid.setBoundaries(getX(), ui::Style::Header::Height + ui::Style::Header::ShadowOffset + ui::Style::Padding,
+                                   getWidth(), getHeight() - ui::Style::Header::Height + ui::Style::Header::ShadowOffset + ui::Style::Padding);
         this->m_backgroundImage.setBoundaries(getX(), getY(), getWidth(), getHeight());
 
         this->m_grid.layout();
