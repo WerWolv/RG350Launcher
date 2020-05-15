@@ -1,5 +1,8 @@
 #include "ui/view/grid.hpp"
 
+#include <SDL.h>
+#include "venus.hpp"
+
 namespace ui::view {
 
     Grid::Grid(u16 columns, float aspectRatio, u32 spacing) : View(), m_rows(0), m_columns(columns), m_aspectRatio(aspectRatio), m_rowHeight(0), m_spacing(spacing) {
@@ -7,13 +10,27 @@ namespace ui::view {
     }
 
     void Grid::draw(NVGcontext *vg) {
-        for (auto &child : this->m_children)
+        u32 currentTicks = SDL_GetTicks();
+
+        if (this->m_offset != this->m_targetOffset) {
+            float timeProgress = static_cast<float>(currentTicks - m_animationStartTick) / static_cast<float>(m_animationEndTick - m_animationStartTick);
+            float animationProgress = (timeProgress >= 1.f) ? 1.f : 1.f - powf(2, -10 * timeProgress);
+            this->m_offset = m_startOffset + static_cast<s32>((m_targetOffset - m_startOffset) * animationProgress);
+        }
+
+        nvgSave(vg);
+        nvgTranslate(vg, 0, this->m_offset * -1);
+
+        for (auto &child : this->m_children) {
             child->frame(vg);
+        }
+        
+        nvgRestore(vg);
     }
 
     void Grid::layout() {
         u32 placeX = getX() + this->m_spacing * 2;
-        u32 placeY = getY();
+        u32 placeY = getY() - this->m_offset;
         const u32 itemWidth = (getWidth() - (this->m_spacing * (this->m_columns + 3))) / this->m_columns;
         const u32 itemHeight = this->m_aspectRatio != 0.0F ? itemWidth * this->m_aspectRatio : (getHeight() / this->m_rows) - (this->m_spacing * (this->m_rows - 1));
 
@@ -47,6 +64,7 @@ namespace ui::view {
                     if (this->m_focusedIndex + offset >= this->m_children.size())
                         break;
                     if (View *nextFocus = this->m_children[this->m_focusedIndex + offset]->getDefaultFocus(); nextFocus != nullptr) {
+                        this->checkForScrolling(nextFocus);
                         this->m_focusedIndex += offset;
                         return nextFocus;
                     }
@@ -58,6 +76,7 @@ namespace ui::view {
                     if (this->m_focusedIndex - offset > this->m_children.size() || this->m_focusedIndex - offset < 0)
                         break;
                     if (View *nextFocus = this->m_children[this->m_focusedIndex + offset]->getDefaultFocus(); nextFocus != nullptr) {
+                        this->checkForScrolling(nextFocus);
                         this->m_focusedIndex += offset;
                         return nextFocus;
                     }
@@ -69,6 +88,7 @@ namespace ui::view {
                     if (i > this->m_children.size() || i < 0)
                         break;
                     if (View *nextFocus = this->m_children[i]->getDefaultFocus(); nextFocus != nullptr) {
+                        this->checkForScrolling(nextFocus);
                         this->m_focusedIndex = i;
                         return nextFocus;
                     }
@@ -79,6 +99,7 @@ namespace ui::view {
                     if (i > this->m_children.size() || i < 0)
                         break;
                     if (View *nextFocus = this->m_children[i]->getDefaultFocus(); nextFocus != nullptr) {
+                        this->checkForScrolling(nextFocus);
                         this->m_focusedIndex = i;
                         return nextFocus;
                     }
@@ -87,6 +108,23 @@ namespace ui::view {
         }
 
         return NON_FOCUSABLE;
+    }
+
+    void Grid::checkForScrolling(View* nextFocus) {
+        s32 screenHeight = cfg::ScreenHeight;
+
+        if (nextFocus->getY() - this->m_offset < 0) {
+            this->m_targetOffset += nextFocus->getY() - this->m_offset - getY() - Style::Padding;
+            this->m_startOffset = this->m_offset;
+            this->m_animationStartTick = SDL_GetTicks();
+            this->m_animationEndTick = this->m_animationStartTick + Style::ScrollingDuration;
+        }
+        else if (nextFocus->getY() - this->m_offset >= screenHeight - nextFocus->getHeight() - Style::Padding) {
+            this->m_targetOffset += nextFocus->getY() - this->m_offset + nextFocus->getHeight() + Style::Padding - screenHeight;
+            this->m_startOffset = this->m_offset;
+            this->m_animationStartTick = SDL_GetTicks();
+            this->m_animationEndTick = this->m_animationStartTick + Style::ScrollingDuration;
+        }
     }
 
 }

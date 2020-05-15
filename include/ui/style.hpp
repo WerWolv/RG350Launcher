@@ -6,6 +6,7 @@ namespace ui {
 
     struct Style {
         static constexpr u32 Padding = 10;
+        static constexpr u32 ScrollingDuration = 200; // ms
 
         struct Header {
             static constexpr u32 Height = 25;

@@ -35,8 +35,16 @@ namespace ui::view {
         u32 m_rowHeight;
         u32 m_spacing;
 
+        s32 m_offset = 0;
+        s32 m_startOffset = 0;
+        s32 m_targetOffset = 0;
+        u32 m_animationStartTick = 0;
+        u32 m_animationEndTick = 0;
+
         std::vector<std::unique_ptr<View>> m_children;
         s32 m_focusedIndex = 0;
+
+        void checkForScrolling(View* nextFocus);
     };
 
 }
