@@ -29,15 +29,18 @@ namespace ui::view {
         void onInput(ui::Button button) override;
 
     private:
+        enum class SwipeDirection { None, Left, Right };
+
         u32 m_currPage = 0;
         u32 m_nextPage = 0;
         s32 m_pageAnimationOffset = 0;
-        enum class SwipeDirection { None, Left, Right } m_swipeDirection;
+        SwipeDirection m_swipeDirection, m_queuedSwipeDirection;
 
         std::vector<std::unique_ptr<View>> m_pages;
 
         ui::view::Header m_header;
 
+        void startSwipe(SwipeDirection direction);
     };
 
 }

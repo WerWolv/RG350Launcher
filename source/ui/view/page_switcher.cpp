@@ -2,7 +2,8 @@
 
 namespace ui::view {
 
-    PageSwitcher::PageSwitcher() : View(), m_currPage(0), m_nextPage(0), m_swipeDirection(SwipeDirection::None) {
+    PageSwitcher::PageSwitcher() : View(), m_currPage(0), m_nextPage(0),
+    m_swipeDirection(SwipeDirection::None), m_queuedSwipeDirection(SwipeDirection::None) {
         CHILD(this->m_header);
     }
 
@@ -47,8 +48,13 @@ namespace ui::view {
             this->m_pageAnimationOffset = 0;
             this->m_swipeDirection = SwipeDirection::None;
             this->m_currPage = this->m_nextPage;
+
+            if (this->m_queuedSwipeDirection != SwipeDirection::None) {
+                this->startSwipe(this->m_queuedSwipeDirection);
+                this->m_queuedSwipeDirection = SwipeDirection::None;
+            }
         } else {
-            this->m_pageAnimationOffset = std::max(0, this->m_pageAnimationOffset - s32(cfg::ScreenWidth / 15));
+            this->m_pageAnimationOffset = std::max(0.0F, this->m_pageAnimationOffset * 0.80F);
         }
 
     }
@@ -69,16 +75,30 @@ namespace ui::view {
     }
 
     void PageSwitcher::onInput(Button button) {
-        if (this->m_swipeDirection != SwipeDirection::None)
-            return;
+        if (this->m_swipeDirection != SwipeDirection::None) {
+            if (button == Button::PageLeft)
+                this->m_queuedSwipeDirection = SwipeDirection::Left;
+            else if (button == Button::PageRight)
+                this->m_queuedSwipeDirection = SwipeDirection::Right;
 
-        if (button == Button::PageLeft) {
+            return;
+        }
+
+        if (button == Button::PageLeft)
+            this->startSwipe(SwipeDirection::Left);
+        else if (button == Button::PageRight)
+            this->startSwipe(SwipeDirection::Right);
+
+    }
+
+    void PageSwitcher::startSwipe(SwipeDirection direction) {
+        if (direction == SwipeDirection::Left) {
             if (this->m_currPage > 0) {
                 this->m_nextPage = this->m_currPage - 1;
                 this->m_pageAnimationOffset = cfg::ScreenWidth;
                 this->m_swipeDirection = SwipeDirection::Left;
             }
-        } else if (button == Button::PageRight) {
+        } else if (direction == SwipeDirection::Right) {
             if (this->m_currPage < this->m_pages.size() - 1) {
                 this->m_nextPage = this->m_currPage + 1;
                 this->m_pageAnimationOffset = cfg::ScreenWidth;
