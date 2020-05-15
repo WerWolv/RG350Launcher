@@ -42,6 +42,31 @@ namespace ui::view {
         nvgText(vg, x + (bounds[2] - bounds[0] + 10) / 2, y + (bounds[3] - bounds[1] + 5) / 2 + 1, string, nullptr);
     }
 
+    void Header::drawTabDots(NVGcontext *vg) {
+        s32 xPos = getX() + getWidth() / 2;
+
+        xPos -= Style::Header::TabDotsSpacing * (this->m_numTabs / 2.0F);
+
+        for (u8 tab = 0; tab < this->m_numTabs; tab++) {
+            nvgBeginPath(vg);
+            nvgFillColor(vg, nvgRGB(0xA0, 0xA0, 0xA0));
+            nvgCircle(vg, xPos, getY() + Style::Header::Height / 2, 5);
+            nvgFill(vg);
+
+            if (tab == this->m_selectedTab) {
+                NVGpaint selectionPaint = nvgRadialGradient(vg, getX() + getWidth() / 2,
+                                                            getY() + Style::Header::Height / 2, 1, 4,
+                                                            nvgRGB(0xFF, 0xEE, 0x00), nvgRGB(0xFF, 0xB7, 0x00));
+                nvgBeginPath(vg);
+                nvgFillPaint(vg, selectionPaint);
+                nvgCircle(vg, xPos, getY() + Style::Header::Height / 2, 3);
+                nvgFill(vg);
+            }
+
+            xPos += Style::Header::TabDotsSpacing;
+        }
+    }
+
     void Header::draw(NVGcontext *vg) {
         NVGpaint bottomShadow = nvgLinearGradient(vg, getX(), getY(), getX(), Style::Header::Height + Style::Header::ShadowOffset, nvgRGBA(0x00, 0x00, 0x00, 0xFF), nvgRGBA(0xFF, 0xFF, 0xFF, 0x00));
 
@@ -123,6 +148,8 @@ namespace ui::view {
         nvgBeginPath(vg);
         nvgText(vg, getWidth() - rOffset, Style::Header::Height / 2, "R", nullptr);
 
+        this->drawTabDots(vg);
+
         drawPill(vg, getX() + 5, getHeight() - 25, timeString);
         drawPill(vg, getX() + 60, getHeight() - 25, "69%");
 
@@ -130,6 +157,11 @@ namespace ui::view {
 
     void Header::layout() {
 
+    }
+
+    void Header::setSelectedTab(s32 numTabs, s32 selectedTab) {
+        this->m_numTabs = numTabs;
+        this->m_selectedTab = selectedTab;
     }
 
 }

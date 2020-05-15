@@ -7,9 +7,11 @@ namespace ui::view {
     }
 
     void ImageButton::draw(NVGcontext *vg) {
+        NVGpaint shadowPaint = nvgBoxGradient(vg, getX(), getY(), getWidth(), getHeight(), 3, 10, nvgRGBA(0x20, 0x20, 0x20, 0xFF), nvgRGBA(0x20, 0x20, 0x20, 0x00));
+
         nvgBeginPath(vg);
-        nvgFillColor(vg, nvgRGB(0xFF, 0xFF, 0xFF));
-        nvgRoundedRect(vg, getX(), getY(), getWidth(), getHeight(), 3);
+        nvgFillPaint(vg, shadowPaint);
+        nvgRoundedRect(vg, getX() - 5, getY() - 5, getWidth() + 10, getHeight() + 10, 3);
         nvgFill(vg);
 
         this->m_image.frame(vg);

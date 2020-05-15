@@ -44,6 +44,8 @@ namespace ui::view {
         }
 
 
+        this->m_header.setSelectedTab(this->m_pages.size(), this->m_nextPage);
+
         if (this->m_pageAnimationOffset <= 0 && this->m_swipeDirection != SwipeDirection::None) {
             this->m_pageAnimationOffset = 0;
             this->m_swipeDirection = SwipeDirection::None;

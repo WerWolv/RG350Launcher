@@ -11,6 +11,7 @@ namespace ui {
             static constexpr u32 Height = 25;
             static constexpr u32 ShadowOffset = 5;
             static constexpr u32 PageButtonWidth = 80;
+            static constexpr u32 TabDotsSpacing = 12;
         };
 
     };
