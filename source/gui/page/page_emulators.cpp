@@ -9,12 +9,10 @@ namespace gui::page {
         this->m_grid.addItem<ui::view::ImageButton>("NES.png");
         this->m_grid.addItem<ui::view::ImageButton>("SNES.png");
         this->m_grid.addItem<ui::view::ImageButton>("GB.png");
-        this->m_grid.addItem<ui::view::ImageButton>("");
-        this->m_grid.addItem<ui::view::ImageButton>("");
-        this->m_grid.addItem<ui::view::ImageButton>("");
-        this->m_grid.addItem<ui::view::ImageButton>("");
-        this->m_grid.addItem<ui::view::ImageButton>("");
-        this->m_grid.addItem<ui::view::ImageButton>("");
+        this->m_grid.addItem<ui::view::ImageButton>("GBC.png");
+        this->m_grid.addItem<ui::view::ImageButton>("GBA.png");
+        this->m_grid.addItem<ui::view::ImageButton>("PCE.png");
+        this->m_grid.addItem<ui::view::ImageButton>("PS1.png");
 
     }
 
