@@ -1,6 +1,5 @@
 #include "ui/view/grid.hpp"
 
-#include <SDL.h>
 #include "venus.hpp"
 
 namespace ui::view {
@@ -10,11 +9,9 @@ namespace ui::view {
     }
 
     void Grid::draw(NVGcontext *vg) {
-        u32 currentTicks = SDL_GetTicks();
-
         if (this->m_offset != this->m_targetOffset) {
-            float timeProgress = static_cast<float>(currentTicks - m_animationStartTick) / static_cast<float>(m_animationEndTick - m_animationStartTick);
-            float animationProgress = (timeProgress >= 1.f) ? 1.f : 1.f - powf(2, -10 * timeProgress);
+            float timeProgress = static_cast<float>(View::getTicks() - m_animationStartTick) / static_cast<float>(m_animationEndTick - m_animationStartTick);
+            float animationProgress = (timeProgress >= 1.0F) ? 1.0F : 1.0F - powf(2, -7 * timeProgress);
             this->m_offset = m_startOffset + static_cast<s32>((m_targetOffset - m_startOffset) * animationProgress);
         }
 
@@ -116,13 +113,13 @@ namespace ui::view {
         if (nextFocus->getY() - this->m_offset < 0) {
             this->m_targetOffset += nextFocus->getY() - this->m_offset - getY() - Style::Padding;
             this->m_startOffset = this->m_offset;
-            this->m_animationStartTick = SDL_GetTicks();
+            this->m_animationStartTick = View::getTicks();
             this->m_animationEndTick = this->m_animationStartTick + Style::ScrollingDuration;
         }
         else if (nextFocus->getY() - this->m_offset >= screenHeight - nextFocus->getHeight() - Style::Padding) {
             this->m_targetOffset += nextFocus->getY() - this->m_offset + nextFocus->getHeight() + Style::Padding - screenHeight;
             this->m_startOffset = this->m_offset;
-            this->m_animationStartTick = SDL_GetTicks();
+            this->m_animationStartTick = View::getTicks();
             this->m_animationEndTick = this->m_animationStartTick + Style::ScrollingDuration;
         }
     }

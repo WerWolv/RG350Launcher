@@ -16,6 +16,7 @@ namespace ui::view {
             auto view = std::make_unique<T>(args...);
             view->setParent(this);
             this->m_pages.push_back(std::move(view));
+            this->m_header.setSelectedTab(this->m_pages.size(), this->m_nextPage);
 
             return *this->m_pages.back();
         }

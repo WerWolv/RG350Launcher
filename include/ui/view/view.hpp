@@ -68,6 +68,8 @@ namespace ui::view {
 
         virtual void onInput(Button button);
 
+        static u32 getTicks();
+
     private:
         bool m_focused = false;
         s32 m_x, m_y;

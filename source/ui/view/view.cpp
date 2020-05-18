@@ -103,10 +103,10 @@ namespace ui::view {
 
         // Border
         const double highlightSpeed = 350.0;
-        u32 currTick = SDL_GetTicks();
-        float gradientX = (cos((double)currTick / highlightSpeed / 3.0) + 1.0) / 2.0;
-        float gradientY = (sin((double)currTick / highlightSpeed / 3.0) + 1.0) / 2.0;
-        float color     = (sin((double)currTick / highlightSpeed * 2.0) + 1.0) / 2.0;
+        double currTick = View::getTicks();
+        auto gradientX = float((cos(currTick / highlightSpeed / 3.0) + 1.0) / 2.0);
+        auto gradientY = float((sin(currTick / highlightSpeed / 3.0) + 1.0) / 2.0);
+        auto color     = float((sin(currTick / highlightSpeed * 2.0) + 1.0) / 2.0);
 
         NVGcolor pulsationColor = nvgRGBAf((color * highlightColor1.r) + (1 - color) * highlightColor2.r,
                                         (color * highlightColor1.g) + (1 - color) * highlightColor2.g,
@@ -158,6 +158,10 @@ namespace ui::view {
     void View::onInput(ui::Button button) {
         if (this->getParent() != nullptr)
             this->getParent()->onInput(button);
+    }
+
+    u32 View::getTicks() {
+        return SDL_GetTicks();
     }
 
 }
